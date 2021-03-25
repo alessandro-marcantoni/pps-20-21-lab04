@@ -4,6 +4,8 @@ import scala.util.Random
 
 object Streams extends App {
   import Lists._
+  import u04lab.code.Optionals._
+  import u04lab.code.Optionals.Option._
   sealed trait Stream[A]
 
   object Stream {
@@ -18,9 +20,24 @@ object Streams extends App {
       Cons(() => head, () => tail)
     }
 
+    def head[A](stream: Stream[A]): Option[A] = stream match {
+      case Cons(h,_) => of(h())
+      case _ => Option.empty
+    }
+
+    def tail[A](stream: Stream[A]): Stream[A] = stream match {
+      case Cons(_,t) => t()
+      case _ => empty()
+    }
+
     def toList[A](stream: Stream[A]): List[A] = stream match {
       case Cons(h,t) => List.Cons(h(), toList(t()))
       case _ => List.Nil()
+    }
+
+    def fromList[A](list: List[A]): Stream[A] = list match {
+      case List.Cons(h,t) => cons(h, fromList(t))
+      case _ => empty()
     }
 
     def map[A, B](stream: Stream[A])(f: A => B): Stream[B] = stream match {
