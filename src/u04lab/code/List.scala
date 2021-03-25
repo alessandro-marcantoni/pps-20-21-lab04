@@ -16,6 +16,8 @@ object Lists extends App {
 
     def nil[A]: List[A] = Nil() // smart constructor
 
+    def of[A](elem: A): List[A] = Cons(elem, nil)
+
     def sum(l: List[Int]): Int = l match {
       case Cons(h, t) => h + sum(t)
       case _ => 0
@@ -26,6 +28,7 @@ object Lists extends App {
       case _ => l2
     }
 
+    @tailrec
     def drop[A](l: List[A], n: Int): List[A] = l match {
       case _ if n<=0 || l==Nil() => l
       case Cons(h,t) => drop(t,n-1)
@@ -71,6 +74,8 @@ object Lists extends App {
     def length(l: List[_]): Int = foldLeft(l)(0)((acc,_) => acc + 1)
 
     def contains[A](l: List[A])(element: A): Boolean = foldLeft(l)(false)((acc,a) => acc || a == element)
+
+    def allMatch[A](l: List[A])(predicate: A => Boolean): Boolean = foldLeft(l)(true)((acc, a) => acc && predicate(a))
 
   }
 

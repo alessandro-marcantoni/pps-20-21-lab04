@@ -46,8 +46,8 @@ object Streams extends App {
     }
 
     def filter[A](stream: Stream[A])(pred: A => Boolean): Stream[A] = stream match {
-      case Cons(head, tail) if (pred(head())) => cons(head(), filter(tail())(pred))
-      case Cons(head, tail) => filter(tail())(pred)
+      case Cons(head, tail) if pred(head()) => cons(head(), filter(tail())(pred))
+      case Cons(_, tail) => filter(tail())(pred)
       case _ => Empty()
     }
 
@@ -80,11 +80,11 @@ object Streams extends App {
   import Stream._
   val n = Random.nextInt(100)
   var str = generate(scala.io.StdIn.readLine())
-  var str2 = map(str)(Integer.parseInt(_))
+  var str2 = map(str)(Integer.parseInt)
   str2 = takeWhile(str2)(_!=n)
-  var str3 = map(str2)({case num if (num>n) => "higher"; case _ => "lower"})
+  var str3 = map(str2)({case num if num>n => "higher"; case _ => "lower"})
   str3 = peek(str3)(s=>println("yours is: "+s))
-  println("you won in "+fold(str3)(0)((a,b)=>b+1)+" steps")
+  println("you won in "+fold(str3)(0)((_,b)=>b+1)+" steps")
 
   /*
   // var simplifies chaining of functions a bit..
