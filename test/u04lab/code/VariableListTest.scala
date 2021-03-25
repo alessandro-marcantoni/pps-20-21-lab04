@@ -2,7 +2,7 @@ package u04lab.code
 
 import org.junit.jupiter.api.Test
 import u04lab.code.Lists.List._
-import VariableList.VariableList
+import u04lab.code.Lists._
 import org.junit.jupiter.api.Assertions.assertEquals
 
 class VariableListTest {
@@ -14,11 +14,11 @@ class VariableListTest {
     val list4 = Cons(3, nil)
     assertEquals(
       Cons(0,Cons(1,Cons(2,Cons(3,Nil())))),
-      VariableList(list1, list2, list3, list4)
+      List(list1, list2, list3, list4)
     )
     assertEquals(
       nil,
-      VariableList()
+      List()
     )
   }
 

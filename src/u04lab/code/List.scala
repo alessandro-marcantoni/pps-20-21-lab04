@@ -12,6 +12,8 @@ object Lists extends App {
     case class Cons[E](head: E, tail: List[E]) extends List[E]
     case class Nil[E]() extends List[E]
 
+    def apply[A](lists: List[A]*): List[A] = lists.foldLeft(nil[A])((acc, list) => append(acc, list))
+
     def nil[A]: List[A] = Nil() // smart constructor
 
     def sum(l: List[Int]): Int = l match {
@@ -56,29 +58,20 @@ object Lists extends App {
       case Nil() => acc
     }
 
-    def reverse[A](l: List[A]) : List[A] =
-      foldLeft(l)(nil[A])((acc,elem) => Cons(elem,acc))
+    def reverse[A](l: List[A]) : List[A] = foldLeft(l)(nil[A])((acc,elem) => Cons(elem,acc))
 
-    def foldRightViaFoldleft[A,B](l: List[A])(acc: B)(f: (A,B)=>B): B =
-      foldLeft(reverse(l))(acc)((acc,elem) => f(elem,acc))
+    def foldRightViaFoldleft[A,B](l: List[A])(acc: B)(f: (A,B)=>B): B = foldLeft(reverse(l))(acc)((acc,elem) => f(elem,acc))
 
-    def foldRight[A,B](l: List[A])(acc: B)(f: (A,B)=>B): B =
-      foldRightViaFoldleft(l)(acc)(f)
+    def foldRight[A,B](l: List[A])(acc: B)(f: (A,B)=>B): B = foldRightViaFoldleft(l)(acc)(f)
 
     def filterByFlatmap[A](l: List[A])(f: A => Boolean): List[A] = flatMap(l)(a => if (f(a)) Cons(a, nil) else nil)
 
     def appendByFold[A](l1: List[A], l2: List[A]): List[A] = foldRight(l1)(l2)((a,b) => Cons(a, b))
 
-    def length(l: List[_]): Int = l match {
-      case Cons(_,t) => length(t) + 1
-      case _ => 0
-    }
+    def length(l: List[_]): Int = foldLeft(l)(0)((acc,_) => acc + 1)
 
-    @tailrec
-    def contains[A](l: List[A])(element: A): Boolean = l match {
-      case Cons(h,t) => h == element || contains(t)(element)
-      case _ => false
-    }
+    def contains[A](l: List[A])(element: A): Boolean = foldLeft(l)(false)((acc,a) => acc || a == element)
+
   }
 
   // Note "List." qualification
