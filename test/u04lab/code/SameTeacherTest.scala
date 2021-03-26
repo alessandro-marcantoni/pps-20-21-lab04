@@ -1,6 +1,6 @@
 package u04lab.code
 
-import org.junit.jupiter.api.Assertions.{assertTrue, fail}
+import org.junit.jupiter.api.Assertions.{assertEquals, assertTrue, fail}
 import org.junit.jupiter.api.Test
 import u04lab.code.Lists._
 
@@ -13,11 +13,11 @@ class SameTeacherTest {
 
   @Test def matchTest(): Unit = {
     List(List.of(course1), List.of(course2)) match {
-      case SameTeacher(_) => assertTrue(true)
+      case SameTeacher(t) => assertEquals(course1.teacher, t)
       case _ => fail()
     }
     List(List.of(course3), List.of(course4)) match {
-      case SameTeacher(_) => assertTrue(true)
+      case SameTeacher(t) => assertEquals(course3.teacher, t)
       case _ => fail()
     }
     List.of(course1) match {
