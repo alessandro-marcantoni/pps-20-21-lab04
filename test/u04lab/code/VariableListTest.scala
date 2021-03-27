@@ -8,13 +8,9 @@ import org.junit.jupiter.api.Assertions.assertEquals
 class VariableListTest {
 
   @Test def variableListTest(): Unit = {
-    val list1 = Cons(0, nil)
-    val list2 = Cons(1, nil)
-    val list3 = Cons(2, nil)
-    val list4 = Cons(3, nil)
     assertEquals(
       Cons(0,Cons(1,Cons(2,Cons(3,Nil())))),
-      List(list1, list2, list3, list4)
+      List(0, 1, 2, 3)
     )
     assertEquals(
       nil,

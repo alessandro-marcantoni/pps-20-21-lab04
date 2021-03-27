@@ -12,11 +12,11 @@ class SameTeacherTest {
   val course4: Course = Course("SEIoT", "Ricci")
 
   @Test def matchTest(): Unit = {
-    List(List.of(course1), List.of(course2)) match {
+    List(course1, course2) match {
       case SameTeacher(t) => assertEquals(course1.teacher, t)
       case _ => fail()
     }
-    List(List.of(course3), List.of(course4)) match {
+    List(course3, course4) match {
       case SameTeacher(t) => assertEquals(course3.teacher, t)
       case _ => fail()
     }
@@ -27,11 +27,11 @@ class SameTeacherTest {
   }
 
   @Test def notMatchTest(): Unit = {
-    List(List.of(course1), List.of(course3)) match {
+    List(course1, course3) match {
       case SameTeacher(_) => fail()
       case _ => assertTrue(true)
     }
-    List(List.of(course1), List.of(course2), List.of(course3), List.of(course4)) match {
+    List(course1, course2, course3, course4) match {
       case SameTeacher(_) => fail()
       case _ => assertTrue(true)
     }

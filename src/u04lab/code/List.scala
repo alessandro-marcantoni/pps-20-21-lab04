@@ -12,7 +12,7 @@ object Lists extends App {
     case class Cons[E](head: E, tail: List[E]) extends List[E]
     case class Nil[E]() extends List[E]
 
-    def apply[A](lists: List[A]*): List[A] = lists.foldLeft(nil[A])((acc, list) => append(acc, list))
+    def apply[A](elems: A*): List[A] = elems.foldLeft(nil[A])((acc, elem) => append(acc, of(elem)))
 
     def nil[A]: List[A] = Nil() // smart constructor
 
